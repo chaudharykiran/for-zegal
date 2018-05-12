@@ -16,8 +16,8 @@ class QuestionForm extends Component {
     };
   }
 
-  onChange = (e) => {
-    const { name, value } = e.target;
+  onChange = (e, data) => {
+    const { name, value } = data;
 
     this.setState(() => ({
       [name]: value,
@@ -43,7 +43,10 @@ class QuestionForm extends Component {
     // for every question, read title and fields
     questions.questions.map((question, index) => {
       const { title, fields } = question;
-
+      const disableSetForIndex0 = !this.state.first_name ||
+                            !this.state.last_name || !this.state.email || !this.state.phone_number;
+      const disableSetForIndex1 = !this.state.street_address ||
+                            !this.state.post_code || !this.state.country;
 
       return (
         <Segment stacked key={title} className={(index !== this.state.visibleIndex) ? 'hide-block' : ''}>
@@ -60,7 +63,9 @@ class QuestionForm extends Component {
             fluid
             size="large"
             onClick={this.onSubmit}
-            disabled={false}
+            disabled={
+              (index === 0) ? disableSetForIndex0 : disableSetForIndex1
+            }
           >
             Submit
           </Button>
