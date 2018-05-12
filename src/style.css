@@ -1,3 +1,9 @@
 .hide-block {
     display: none;
 }
+
+body > div,
+    body > div > div,
+          body > div > div > div.form {
+            height: 100%;
+          }

@@ -38,15 +38,27 @@ class QuestionForm extends Component {
     }
   }
 
+  checkDisabled = (fields) => {
+    let disabled = true;
+    // let _disabled = true;
+
+    for (let i = 0; i < fields.length; i += 1) {
+      if (this.state[`${fields[i].name}`]) {
+        disabled = false;
+      } else {
+        disabled = true;
+        break;
+      }
+    }
+
+    return disabled;
+  }
+
 
   renderQuestion = () =>
     // for every question, read title and fields
     questions.questions.map((question, index) => {
       const { title, fields } = question;
-      const disableSetForIndex0 = !this.state.first_name ||
-                            !this.state.last_name || !this.state.email || !this.state.phone_number;
-      const disableSetForIndex1 = !this.state.street_address ||
-                            !this.state.post_code || !this.state.country;
 
       return (
         <Segment stacked key={title} className={(index !== this.state.visibleIndex) ? 'hide-block' : ''}>
@@ -64,7 +76,7 @@ class QuestionForm extends Component {
             size="large"
             onClick={this.onSubmit}
             disabled={
-              (index === 0) ? disableSetForIndex0 : disableSetForIndex1
+              this.checkDisabled(fields)
             }
           >
             Submit
@@ -76,20 +88,7 @@ class QuestionForm extends Component {
 
   render() {
     return (
-      <div className="login-form">
-        {/*
-          Heads up! The styles below are necessary for the correct render of this example.
-          You can do same with CSS, the main idea is that all the elements up to the `Grid`
-          below must have a height of 100%.
-        */}
-        <style>{`
-          body > div,
-          body > div > div,
-          body > div > div > div.login-form {
-            height: 100%;
-          }
-        `}
-        </style>
+      <div className="form">
         <Grid
           textAlign="center"
           style={{ height: '100%' }}
